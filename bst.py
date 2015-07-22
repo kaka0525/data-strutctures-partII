@@ -1,24 +1,63 @@
-class BinaryTreeNode(object):
+class Node:
+    def __init__(self, val):
+        self.value = val
+        self.leftChild = None
+        self.rightChild = None
 
-    def __init__(self, data):
-        self.left = None
-        self.right = None
-        self.val = val
-        self.size = 0
+    def insert(self, data):
+        if self.value == data:   # not allowing duplicates
+            return False
+        elif self.value > data:
+            if self.leftChild:
+                return self.leftChild.insert(data)
+            else:
+                self.leftChild = Node(data)
+                return True
+        else:
+            if self.rightChild:
+                return self.rightChild.insert(data)
+            else:
+                self.rightChild = Node(data)
+                return True
+
+    def contains(self, data):
+        if (self.value == data):
+            return True
+        elif self.value > data:
+            if self.leftChild:
+                return self.leftChild.contains(data)
+            else:
+                return False
+        else:
+            if self.rightChild:
+                return self.rightChild.contains(data)
+            else:
+                return False
+
+
+class Tree:
+    def __init__(self):
+        self.root = None
 
     def length(self):
         return self.size
 
-    def insert(self, val):
+    def insert(self, data):
         """
         Insert the value val into the BST.  If val is already present,
         it will be ignored.
         """
-        pass
+        if self.root:
+            return self.root.insert(data)
+        else:
+            self.root = Node(data)
 
-    def contains(self, value):
+    def contains(self, data):
         """Return True if val is in the BST, False if not."""
-        pass
+        if self.root:
+            return self.root.contains(data)
+        else:
+            return False
 
     def size(self):
         """
