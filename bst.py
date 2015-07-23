@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from time import time
+from collections import deque
 
 
 class _BstNode(object):  # each node is the root of the subtree
@@ -122,6 +123,42 @@ class BST(object):
         else:
             return 0
 
+    def pre_order(self, node=None):
+        if node is None:
+            node = self._root
+        yield node
+        if node.left is not None:
+            self.pre_order(node.left)
+        if node.right is not None:
+            self.pre_order(node.right)
+
+    def in_order(self, node=None):
+        if node is None:
+            node = self._root
+        if node.left is not None:
+            self.in_order(node.left)
+        yield node
+        if node.right is not None:
+            self.in_order(node.right)
+
+    def post_order(self, node=None):
+        if node is None:
+            node = self._root
+        if node.left is not None:
+            self.in_order(node.left)
+        if node.right is not None:
+            self.in_order(node.right)
+        yield node
+
+    def breadth_first(self):
+        q = deque([self._root])
+        while q:
+            node = q.popleft()
+            yield node
+            if node.left is not None:
+                q.append(node.left)
+            if node.right is not None:
+                q.append(node.right)
 
 if __name__ == '__main__':
     def populate(numlist):
