@@ -1,3 +1,7 @@
+from __future__ import unicode_literals
+from time import time
+
+
 class _BstNode(object):  # each node is the root of the subtree
     def __init__(self, value):
         self.value = value
@@ -117,3 +121,29 @@ class BST(object):
             return self._root.left_depth() - self._root.right_depth()
         else:
             return 0
+
+
+if __name__ == '__main__':
+    def populate(numlist):
+        tree = BST()
+        for num in numlist:
+            tree.insert(num)
+        return tree
+
+    def crappy():
+        numlist = range(1, 10)
+        populate(numlist)
+
+    def ideal():
+        numlist = [5, 2, 8, 1, 3, 7, 9, 6, 10]
+        populate(numlist)
+
+    t0 = time()
+    crappy()
+    crappy_time = time() - t0
+    print "Single List {}".format(crappy_time)
+
+    t0 = time()
+    ideal()
+    ideal_time = time() - t0
+    print "Balanced Tree {}".format(ideal_time)
