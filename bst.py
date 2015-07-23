@@ -1,61 +1,89 @@
-class Node:
-    def __init__(self, val):
-        self.value = val
-        self.leftChild = None
-        self.rightChild = None
+class _BstNode(object):  # each node is the root of the subtree
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+        self.depth = 1
 
-    def insert(self, data):
-        if self.value == data:   # not allowing duplicates
+    def left_depth(self):
+        if self.left:
+            return self.left.depth
+        else:
+            return 0
+
+    def right_depth(self):
+        if self.right:
+            return self.right.depth
+        else:
+            return 0
+
+    def _update_depth(self):
+        self.depth = max(self.left_depth(), self.right_depth()) + 1
+
+    def insert(self, value_to_insert):
+        if self.value == value_to_insert:  # not allowing duplicates
             return False
-        elif self.value > data:
-            if self.leftChild:
-                return self.leftChild.insert(data)
-            else:
-                self.leftChild = Node(data)
-                return True
         else:
-            if self.rightChild:
-                return self.rightChild.insert(data)
+            return_val = False
+            if self.value > value_to_insert:
+                if self.left:
+                    return_val = self.left.insert(value_to_insert)
+                else:
+                    self.left = _BstNode(value_to_insert)
+                    return_val = True
             else:
-                self.rightChild = Node(data)
-                return True
+                if self.right:
+                    return_val = self.right.insert(value_to_insert)
+                else:
+                    self.right = _BstNode(value_to_insert)
+                    return_val = True
+            self._update_depth()
+            return return_val
 
-    def contains(self, data):
-        if (self.value == data):
+    def contains(self, value_to_insert):
+        if(self.value == value_to_insert):
             return True
-        elif self.value > data:
-            if self.leftChild:
-                return self.leftChild.contains(data)
+        elif self.value > value_to_insert:
+            if self.left:
+                return self.left.contains(value_to_insert)
             else:
                 return False
         else:
-            if self.rightChild:
-                return self.rightChild.contains(data)
+            if self.right:
+                return self.right.contains(value_to_insert)
             else:
                 return False
 
 
-class Tree:
+class BST(object):
     def __init__(self):
-        self.root = None
+        self._size = 0
+        self._root = None
+        self._balance = 0
 
-    def length(self):
-        return self.size
+    def __len__(self):
+        return self._size
 
-    def insert(self, data):
+    def insert(self, val):
         """
         Insert the value val into the BST.  If val is already present,
         it will be ignored.
         """
-        if self.root:
-            return self.root.insert(data)
-        else:
-            self.root = Node(data)
 
-    def contains(self, data):
+        if self._root:
+            size_increased = self._root.insert(val)  # value to insert
+            if size_increased:
+                self._size += 1
+            return size_increased
+        else:
+            self._root = _BstNode(val)
+            self._size += 1
+            return True
+
+    def contains(self, val):
         """Return True if val is in the BST, False if not."""
-        if self.root:
-            return self.root.contains(data)
+        if self._root:
+            return self._root.contains(val)
         else:
             return False
 
@@ -64,7 +92,7 @@ class Tree:
         Return the integer size of the BST (equal to the total number of values
         stored in the tree), 0 if the tree is empty.
         """
-        pass
+        return self.size
 
     def depth(self):
         """
@@ -72,7 +100,10 @@ class Tree:
         If there is one value, the depth should be 1, if two values it will be
         2, if three values it may be 2 or three, depending, etc.
         """
-        pass
+        if self._root:
+            return self._root.depth
+        else:
+            return 0
 
     def balance(self):
         """
@@ -82,4 +113,7 @@ class Tree:
         than the left should return a negative value. An ideallyl-balanced tree
         should return 0.
         """
-        pass
+        if self._root:
+            return self._root.left_depth() - self._root.right_depth()
+        else:
+            return 0
