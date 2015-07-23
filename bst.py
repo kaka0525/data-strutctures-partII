@@ -40,17 +40,17 @@ class _BstNode(object):  # each node is the root of the subtree
             self._update_depth()
             return return_val
 
-    def contains(self, value_to_insert):
-        if(self.value == value_to_insert):
+    def contains(self, value_to_find):
+        if self.value == value_to_find:
             return True
-        elif self.value > value_to_insert:
+        elif self.value > value_to_find:
             if self.left:
-                return self.left.contains(value_to_insert)
+                return self.left.contains(value_to_find)
             else:
                 return False
         else:
             if self.right:
-                return self.right.contains(value_to_insert)
+                return self.right.contains(value_to_find)
             else:
                 return False
 
@@ -92,7 +92,7 @@ class BST(object):
         Return the integer size of the BST (equal to the total number of values
         stored in the tree), 0 if the tree is empty.
         """
-        return self.size
+        return self._size
 
     def depth(self):
         """
