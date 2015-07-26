@@ -58,3 +58,23 @@ def test_balance(full_tree, empty_tree):
     assert empty_tree.balance() == 0
     empty_tree.insert(1)
     assert empty_tree.balance() > 0
+
+
+def test_pre_order(full_tree):
+    g = full_tree.pre_order()
+    assert list(g) == [15, 7, 1, 5, 14, 16]
+
+
+def test_in_order(full_tree):
+    g = full_tree.in_order()
+    assert list(g) == [1, 5, 7, 14, 15, 16]
+
+
+def test_post_order(full_tree):
+    g = full_tree.post_order()
+    assert list(g) == [5, 1, 14, 7, 16, 15]
+
+
+def test_breadth_first(full_tree):
+    g = full_tree.breadth_first()
+    assert list(g) == [15, 7, 16, 1, 14, 5]
