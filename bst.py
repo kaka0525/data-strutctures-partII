@@ -19,6 +19,9 @@ class _BstNode(object):  # each node is the root of the subtree
     def _update_depth(self):
         self.depth = max(self.left_depth(), self.right_depth()) + 1
 
+    def balance(self):
+        return self.left_depth() - self.right_depth()
+
     def insert(self, value_to_insert):
         if self.value == value_to_insert:  # not allowing duplicates
             return False
@@ -104,23 +107,20 @@ class BST(object):
         Insert the value val into the BST.  If val is already present,
         it will be ignored.
         """
-
+        size_increased = False
         if self._root:
             size_increased = self._root.insert(val)  # value to insert
             if size_increased:
                 self._size += 1
-            return size_increased
         else:
             self._root = _BstNode(val)
             self._size += 1
-            return True
+            size_increased = True
+        return size_increased
 
     def contains(self, val):
         """Return True if val is in the BST, False if not."""
-        if self._root:
-            return self._root.contains(val)
-        else:
-            return False
+        return self._root.contains(val) if self._root else False
 
     def size(self):
         """
@@ -135,10 +135,7 @@ class BST(object):
         If there is one value, the depth should be 1, if two values it will be
         2, if three values it may be 2 or three, depending, etc.
         """
-        if self._root:
-            return self._root.depth
-        else:
-            return 0
+        return self._root.depth if self._root else 0
 
     def balance(self):
         """
@@ -148,10 +145,7 @@ class BST(object):
         than the left should return a negative value. An ideally-balanced tree
         should return 0.
         """
-        if self._root:
-            return self._root.left_depth() - self._root.right_depth()
-        else:
-            return 0
+        return self._root.balance() if self._root else 0
 
     def pre_order(self):
         """
