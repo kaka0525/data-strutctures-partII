@@ -11,16 +11,10 @@ class _BstNode(object):  # each node is the root of the subtree
         self.depth = 1
 
     def left_depth(self):
-        if self.left:
-            return self.left.depth
-        else:
-            return 0
+        return self.left.depth if self.left else 0
 
     def right_depth(self):
-        if self.right:
-            return self.right.depth
-        else:
-            return 0
+        return self.right.depth if self.right else 0
 
     def _update_depth(self):
         self.depth = max(self.left_depth(), self.right_depth()) + 1
@@ -59,12 +53,48 @@ class _BstNode(object):  # each node is the root of the subtree
             else:
                 return False
 
+    def pre_order(self):
+        yield self.value
+        if self.left:
+            for l in self.left.pre_order():
+                yield l
+        if self.right:
+            for r in self.right.pre_order():
+                yield r
+
+    def in_order(self):
+        if self.left:
+            for l in self.left.in_order():
+                yield l
+        yield self.value
+        if self.right:
+            for r in self.right.in_order():
+                yield r
+
+    def post_order(self):
+        if self.left:
+            for l in self.left.post_order():
+                yield l
+        if self.right:
+            for r in self.right.post_order():
+                yield r
+        yield self.value
+
+    def breadth_first(self):
+        q = deque([self])
+        while q:
+            node = q.popleft()
+            yield node.value
+            if node.left:
+                q.append(node.left)
+            if node.right:
+                q.append(node.right)
+
 
 class BST(object):
     def __init__(self):
         self._size = 0
         self._root = None
-        self._balance = 0
 
     def __len__(self):
         return self._size
@@ -113,9 +143,9 @@ class BST(object):
     def balance(self):
         """
         Return an integer, positive or negative that represents how well
-        balanced the tree is.Trees which are higher on the left than the right
+        balanced the tree is. Trees which are higher on the left than the right
         should return a positive value, trees which are higher on the right
-        than the left should return a negative value. An ideallyl-balanced tree
+        than the left should return a negative value. An ideally-balanced tree
         should return 0.
         """
         if self._root:
@@ -123,42 +153,39 @@ class BST(object):
         else:
             return 0
 
-    def pre_order(self, node=None):
-        if node is None:
-            node = self._root
-        yield node
-        if node.left is not None:
-            self.pre_order(node.left)
-        if node.right is not None:
-            self.pre_order(node.right)
+    def pre_order(self):
+        """
+        Will return a generator that will return the values in the tree using
+        pre-order traversal, one at a time.
+        """
+        if self._root:
+            # Return the pre_order generator at self._root
+            return self._root.pre_order()
 
-    def in_order(self, node=None):
-        if node is None:
-            node = self._root
-        if node.left is not None:
-            self.in_order(node.left)
-        yield node
-        if node.right is not None:
-            self.in_order(node.right)
+    def in_order(self):
+        """
+        Will return a generator that will return the values in the tree using
+        in-order traversal, one at a time.
+        """
+        if self._root:
+            return self._root.in_order()
 
-    def post_order(self, node=None):
-        if node is None:
-            node = self._root
-        if node.left is not None:
-            self.in_order(node.left)
-        if node.right is not None:
-            self.in_order(node.right)
-        yield node
+    def post_order(self):
+        """
+        Will return a generator that will return the values in the tree using
+        post-order traversal, one at a time.
+        """
+        if self._root:
+            return self._root.post_order()
 
     def breadth_first(self):
-        q = deque([self._root])
-        while q:
-            node = q.popleft()
-            yield node
-            if node.left is not None:
-                q.append(node.left)
-            if node.right is not None:
-                q.append(node.right)
+        """
+        Will return a generator that will return the values in the tree using
+        breadth_first traversal, one at a time.
+        """
+        if self._root:
+            return self._root.breadth_first()
+
 
 if __name__ == '__main__':
     def populate(numlist):
