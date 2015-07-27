@@ -93,6 +93,63 @@ class _BstNode(object):  # each node is the root of the subtree
             if node.right:
                 q.append(node.right)
 
+    def _delete_help(self):
+        q = deque([self])
+        while q:
+            node = q.popleft()
+            yield node
+            if node.left:
+                q.append(node.left)
+            if node.right:
+                q.append(node.right)
+
+    def delete(self, val):
+        parent_node = self
+        del_node = None
+        nodes = self._delete_help()
+        while nodes:
+            parent_node = nodes.next()
+            if parent_node.left is not None:
+                if parent_node.left.value == val:
+                    del_node = parent_node.left
+                    break
+            if parent_node.right is not None:
+                if parent_node.right.value == val:
+                    del_node = parent_node.right
+                    break
+        if del_node.left is not None and del_node.right is not None:
+            temp_node = None
+            if self.balance() > 1:
+                temp_node = del_node.left
+                while temp_node.right is not None:
+                    temp_node = temp_node.right
+            else:
+                temp_node = del_node.right
+                while temp_node.left is not None:
+                    temp_node = temp_node.left
+            if parent_node.right == del_node:
+                parent_node.right = temp_node
+                temp_node.left = del_node.left
+            else:
+                parent_node.left = temp_node
+                temp_node.right = del_node.right
+        elif del_node.left is not None:
+            if parent_node.left == del_node:
+                parent_node.left = del_node.left
+            else:
+                parent_node.right = del_node.left
+        elif del_node.right is not None:
+            if parent_node.left == del_node:
+                parent_node.left = del_node.left
+            else:
+                parent_node.right = del_node.left
+        else:
+            if parent_node.left == del_node:
+                parent_node.left = None
+            else:
+                parent_node.right = None
+        del del_node
+
 
 class BST(object):
     def __init__(self):
@@ -179,6 +236,11 @@ class BST(object):
         """
         if self._root:
             return self._root.breadth_first()
+
+    def delete(self, val):
+        if self._root:
+            self._size -= 1
+            return self._root.delete(val)
 
 
 if __name__ == '__main__':
