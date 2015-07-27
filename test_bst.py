@@ -90,33 +90,41 @@ def test_breadth_first(full_tree):
     assert list(g) == [15, 7, 16, 1, 14, 5]
 
 
-def test_remove_leaf(full_tree):
-    full_tree.remove(16)
+def test_delete_leaf(full_tree):
+    full_tree.delete(16)
     assert full_tree.size() == 5
     g = full_tree.in_order()
     assert list(g) == [1, 5, 7, 14, 15]
     assert full_tree.contains(16) is False
 
 
-def test_remove_node_with_one_right_child(full_tree):
-    full_tree.remove(1)
+def test_delete_node_with_one_right_child(full_tree):
+    full_tree.delete(1)
     assert full_tree.size() == 5
     g = full_tree.in_order()
     assert list(g) == [5, 7, 14, 15, 16]
     assert full_tree.contains(1) is False
 
 
-def test_remove_node_with_one_left_child(second_full_tree):
-    second_full_tree.remove(5)
+def test_delete_node_with_one_left_child(second_full_tree):
+    second_full_tree.delete(5)
     assert second_full_tree.size() == 5
     g = second_full_tree.in_order()
     assert list(g) == [3, 7, 14, 15, 16]
     assert second_full_tree.contains(5) is False
 
 
-def test_remove_node_with_two_child(full_tree):
-    full_tree.remove(7)
+def test_delete_node_with_two_child(full_tree):
+    full_tree.delete(7)
     assert full_tree.size() == 5
     g = full_tree.in_order()
     assert list(g) == [1, 5, 14, 15, 16]
     assert full_tree.contains(7) is False
+
+
+def test_delete_root_node(full_tree):
+    full_tree.delete(15)
+    assert full_tree.size() == 5
+    g = full_tree.in_order()
+    assert list(g) == [1, 5, 7, 14, 16]
+    assert full_tree.contains(15) is False
