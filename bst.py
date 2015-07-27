@@ -148,9 +148,11 @@ class _BstNode(object):  # each node is the root of the subtree
             elif parent_node.right == del_node:
                 parent_node.right = temp_node
                 temp_node.left = del_node.left
+                temp_node.right = del_node.right
             else:
                 parent_node.left = temp_node
                 temp_node.right = del_node.right
+                temp_node.left = del_node.left
         elif del_node.left is not None:
             if parent_node == del_node:
                 self.value = self.left.value
@@ -164,7 +166,7 @@ class _BstNode(object):  # each node is the root of the subtree
                 self.value = self.right.value
                 self.right = self.right.right
             elif parent_node.left == del_node:
-                parent_node.left = del_node.left
+                parent_node.left = del_node.right
             else:
                 parent_node.right = del_node.left
         else:
