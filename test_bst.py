@@ -120,3 +120,11 @@ def test_remove_node_with_two_child(full_tree):
     g = full_tree.in_order()
     assert list(g) == [1, 5, 14, 15, 16]
     assert full_tree.contains(7) is False
+
+
+def test_remove_root_node(full_tree):
+    full_tree.remove(15)
+    assert full_tree.size() == 5
+    g = full_tree.in_order()
+    assert list(g) == [1, 5, 7, 14, 16]
+    assert full_tree.contains(15) is False
