@@ -4,6 +4,8 @@ import pytest
 
 tree_val = [15, 7, 14, 16, 1, 5]
 
+second_tree_val = [15, 7, 16, 5, 14, 3]
+
 
 @pytest.fixture()
 def empty_tree():
@@ -15,6 +17,14 @@ def empty_tree():
 def full_tree():
     tree = BST()
     for val in tree_val:
+        tree.insert(val)
+    return tree
+
+
+@pytest.fixture()
+def second_full_tree():
+    tree = BST()
+    for val in second_tree_val:
         tree.insert(val)
     return tree
 
@@ -78,3 +88,35 @@ def test_post_order(full_tree):
 def test_breadth_first(full_tree):
     g = full_tree.breadth_first()
     assert list(g) == [15, 7, 16, 1, 14, 5]
+
+
+def test_remove_leaf(full_tree):
+    full_tree.remove(16)
+    assert full_tree.size() == 5
+    g = full_tree.in_order()
+    assert list(g) == [1, 5, 7, 14, 15]
+    assert full_tree.contains(16) is False
+
+
+def test_remove_node_with_one_right_child(full_tree):
+    full_tree.remove(1)
+    assert full_tree.size() == 5
+    g = full_tree.in_order()
+    assert list(g) == [5, 7, 14, 15, 16]
+    assert full_tree.contains(1) is False
+
+
+def test_remove_node_with_one_left_child(second_full_tree):
+    second_full_tree.remove(5)
+    assert second_full_tree.size() == 5
+    g = second_full_tree.in_order()
+    assert list(g) == [3, 7, 14, 15, 16]
+    assert second_full_tree.contains(5) is False
+
+
+def test_remove_node_with_two_child(full_tree):
+    full_tree.remove(7)
+    assert full_tree.size() == 5
+    g = full_tree.in_order()
+    assert list(g) == [1, 5, 14, 15, 16]
+    assert full_tree.contains(7) is False
