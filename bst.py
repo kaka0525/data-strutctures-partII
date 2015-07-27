@@ -148,7 +148,6 @@ class _BstNode(object):  # each node is the root of the subtree
                 parent_node.left = None
             else:
                 parent_node.right = None
-        del del_node
 
 
 class BST(object):
