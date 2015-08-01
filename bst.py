@@ -1,3 +1,8 @@
+from __future__ import unicode_literals
+from time import time
+from collections import deque
+
+
 class _BstNode(object):  # each node is the root of the subtree
     def __init__(self, value):
         self.value = value
@@ -6,19 +11,16 @@ class _BstNode(object):  # each node is the root of the subtree
         self.depth = 1
 
     def left_depth(self):
-        if self.left:
-            return self.left.depth
-        else:
-            return 0
+        return self.left.depth if self.left else 0
 
     def right_depth(self):
-        if self.right:
-            return self.right.depth
-        else:
-            return 0
+        return self.right.depth if self.right else 0
 
     def _update_depth(self):
         self.depth = max(self.left_depth(), self.right_depth()) + 1
+
+    def balance(self):
+        return self.left_depth() - self.right_depth()
 
     def insert(self, value_to_insert):
         if self.value == value_to_insert:  # not allowing duplicates
@@ -58,8 +60,6 @@ class _BstNode(object):  # each node is the root of the subtree
             else:
                 return False
 
-<<<<<<< Updated upstream
-=======
     def left_rotation(self):
         old_root = self
         new_root = old_root.right
@@ -76,12 +76,12 @@ class _BstNode(object):  # each node is the root of the subtree
 
     def double_left_rotation(self):
         old_root = self
-        old_root.right = old_root.right_rotation()
+        old_root.right = old_root.right.right_rotation()
         return old_root.left_rotation()
 
     def double_right_rotation(self):
         old_root = self
-        old_root.left = old_root.left_rotation()
+        old_root.left = old_root.left.left_rotation()
         return old_root.right_rotation()
 
     def re_balance(self):
@@ -227,13 +227,11 @@ class _BstNode(object):  # each node is the root of the subtree
             else:
                 parent_node.right = None
 
->>>>>>> Stashed changes
 
 class BST(object):
     def __init__(self):
         self._size = 0
         self._root = None
-        self._balance = 0
 
     def __len__(self):
         return self._size
@@ -243,28 +241,22 @@ class BST(object):
         Insert the value val into the BST.  If val is already present,
         it will be ignored.
         """
-
+        size_increased = False
         if self._root:
             size_increased = self._root.insert(val)  # value to insert
             if size_increased:
                 self._size += 1
-<<<<<<< Updated upstream
-            return size_increased
-=======
                 # Ensure balance at the root
                 self._root = self._root.re_balance()
->>>>>>> Stashed changes
         else:
             self._root = _BstNode(val)
             self._size += 1
-            return True
+            size_increased = True
+        return size_increased
 
     def contains(self, val):
         """Return True if val is in the BST, False if not."""
-        if self._root:
-            return self._root.contains(val)
-        else:
-            return False
+        return self._root.contains(val) if self._root else False
 
     def size(self):
         """
@@ -279,25 +271,41 @@ class BST(object):
         If there is one value, the depth should be 1, if two values it will be
         2, if three values it may be 2 or three, depending, etc.
         """
-        if self._root:
-            return self._root.depth
-        else:
-            return 0
+        return self._root.depth if self._root else 0
 
     def balance(self):
         """
         Return an integer, positive or negative that represents how well
-        balanced the tree is.Trees which are higher on the left than the right
+        balanced the tree is. Trees which are higher on the left than the right
         should return a positive value, trees which are higher on the right
-        than the left should return a negative value. An ideallyl-balanced tree
+        than the left should return a negative value. An ideally-balanced tree
         should return 0.
         """
+        return self._root.balance() if self._root else 0
+
+    def pre_order(self):
+        """
+        Will return a generator that will return the values in the tree using
+        pre-order traversal, one at a time.
+        """
         if self._root:
-<<<<<<< Updated upstream
-            return self._root.left_depth() - self._root.right_depth()
-        else:
-            return 0
-=======
+            # Return the pre_order generator at self._root
+            return self._root.pre_order()
+
+    def in_order(self):
+        """
+        Will return a generator that will return the values in the tree using
+        in-order traversal, one at a time.
+        """
+        if self._root:
+            return self._root.in_order()
+
+    def post_order(self):
+        """
+        Will return a generator that will return the values in the tree using
+        post-order traversal, one at a time.
+        """
+        if self._root:
             return self._root.post_order()
 
     def breadth_first(self):
@@ -341,4 +349,3 @@ if __name__ == '__main__':
     ideal()
     ideal_time = time() - t0
     print "Balanced Tree {}".format(ideal_time)
->>>>>>> Stashed changes
