@@ -10,6 +10,9 @@ class _BstNode(object):  # each node is the root of the subtree
         self.right = None
         self.depth = 1
 
+    def __str__(self):
+        return '({}, {}, {})'.format(self.value, self.left, self.right)
+
     def left_depth(self):
         return self.left.depth if self.left else 0
 
@@ -65,6 +68,8 @@ class _BstNode(object):  # each node is the root of the subtree
         new_root = old_root.right
         old_root.right = new_root.left
         new_root.left = old_root
+        old_root._update_depth()
+        new_root._update_depth()
         return new_root
 
     def right_rotation(self):
@@ -72,6 +77,8 @@ class _BstNode(object):  # each node is the root of the subtree
         new_root = old_root.left
         old_root.left = new_root.right
         new_root.right = old_root
+        old_root._update_depth()
+        new_root._update_depth()
         return new_root
 
     def double_left_rotation(self):
@@ -96,8 +103,7 @@ class _BstNode(object):  # each node is the root of the subtree
                 return self.right_rotation()
                 # Regular right rotation
             else:
-                return self.double_left_rotation()
-                # Left-right rotation
+                return self.double_right_rotation()
         else:
             # Unbalanced to the right
             right_subtree = self.right
@@ -105,8 +111,7 @@ class _BstNode(object):  # each node is the root of the subtree
                 # Regular left rotation
                 return self.left_rotation()
             else:
-                # Right-left rotation
-                return self.double_right_rotation()
+                return self.double_left_rotation()
 
     def pre_order(self):
         yield self.value
@@ -145,87 +150,8 @@ class _BstNode(object):  # each node is the root of the subtree
             if node.right:
                 q.append(node.right)
 
-    def _delete_help(self):
-        q = deque([self])
-        while q:
-            node = q.popleft()
-            yield node
-            if node.left:
-                q.append(node.left)
-            if node.right:
-                q.append(node.right)
-
     def delete(self, val):
-        parent_node = None
-        del_node = self
-        nodes = self._delete_help()
-        while nodes:
-            parent_node = nodes.next()
-            if parent_node.value == val:
-                break
-            if parent_node.left is not None:
-                if parent_node.left.value == val:
-                    del_node = parent_node.left
-                    break
-            if parent_node.right is not None:
-                if parent_node.right.value == val:
-                    del_node = parent_node.right
-                    break
-        if del_node.left is not None and del_node.right is not None:
-            temp_node = None
-            if self.balance() > 1:
-                temp_node = del_node.left
-                while temp_node.right is not None:
-                    if temp_node.right.right is None:
-                        unwire = temp_node
-                        temp_node = temp_node.right
-                        unwire.right = None
-                        break
-                    temp_node = temp_node.right
-            else:
-                temp_node = del_node.right
-                while temp_node.left is not None:
-                    if temp_node.left.left is None:
-                        unwire = temp_node
-                        temp_node = temp_node.left
-                        unwire.left = None
-                        break
-                    temp_node = temp_node.left
-            if parent_node == del_node:
-                if self.right == temp_node:
-                    temp_node.left = self.right
-                else:
-                    temp_node.right = self.left
-                self.value = temp_node.value
-            elif parent_node.right == del_node:
-                parent_node.right = temp_node
-                temp_node.left = del_node.left
-                temp_node.right = del_node.right
-            else:
-                parent_node.left = temp_node
-                temp_node.right = del_node.right
-                temp_node.left = del_node.left
-        elif del_node.left is not None:
-            if parent_node == del_node:
-                self.value = self.left.value
-                self.left = self.left.left
-            elif parent_node.left == del_node:
-                parent_node.left = del_node.left
-            else:
-                parent_node.right = del_node.left
-        elif del_node.right is not None:
-            if parent_node == del_node:
-                self.value = self.right.value
-                self.right = self.right.right
-            elif parent_node.left == del_node:
-                parent_node.left = del_node.right
-            else:
-                parent_node.right = del_node.left
-        else:
-            if parent_node.left == del_node:
-                parent_node.left = None
-            else:
-                parent_node.right = None
+        pass
 
 
 class BST(object):
@@ -235,6 +161,11 @@ class BST(object):
 
     def __len__(self):
         return self._size
+
+    def __str__(self):
+        print str(self._root.left_depth())
+        print str(self._root.right_depth())
+        return str(self._root)
 
     def insert(self, val):
         """
