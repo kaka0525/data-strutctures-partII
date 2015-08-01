@@ -4,8 +4,6 @@ import pytest
 
 tree_val = [15, 7, 14, 16, 1, 5]
 
-<<<<<<< Updated upstream
-=======
 second_tree_val = [15, 7, 16, 5, 14, 3]
 
 right_heavy_tree_val = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -16,7 +14,6 @@ double_left_rotation_tree_val = [10, 12, 11, 10.5]
 
 double_right_rotation_tree_val = [10, 8, 9]
 
->>>>>>> Stashed changes
 
 @pytest.fixture()
 def empty_tree():
@@ -32,8 +29,6 @@ def full_tree():
     return tree
 
 
-<<<<<<< Updated upstream
-=======
 @pytest.fixture()
 def second_full_tree():
     tree = BST()
@@ -49,7 +44,7 @@ def right_heavy_tree():
         tree.insert(val)
     return tree
 
->>>>>>> Stashed changes
+
 def test_contains(full_tree):
     for val in tree_val:
         assert full_tree.contains(val)
@@ -89,8 +84,6 @@ def test_balance(full_tree, empty_tree):
     assert empty_tree.balance() == 0
     empty_tree.insert(1)
     assert empty_tree.balance() > 0
-<<<<<<< Updated upstream
-=======
 
 
 def test_pre_order(full_tree):
@@ -155,4 +148,3 @@ def test_delete_root_node(full_tree):
 
 def test_balance_right_heavy_tree(right_heavy_tree):
     assert right_heavy_tree.size() == 10
->>>>>>> Stashed changes
