@@ -92,6 +92,8 @@ class _BstNode(object):  # each node is the root of the subtree
         return old_root.right_rotation()
 
     def re_balance(self):
+        print "re-balancing"
+        print str(self)
         balance = self.balance()
         if abs(balance) <= 1:
             # Already balanced; just return self
@@ -99,19 +101,21 @@ class _BstNode(object):  # each node is the root of the subtree
         elif balance > 1:
             # Unbalanced to the left
             left_subtree = self.left
-            if left_subtree.left:
-                return self.right_rotation()
-                # Regular right rotation
-            else:
+            if left_subtree.balance() < 0:
+                # left subtree is right-heavy
                 return self.double_right_rotation()
+            else:
+                # Regular right rotation
+                return self.right_rotation()
         else:
             # Unbalanced to the right
             right_subtree = self.right
-            if right_subtree.right:
+            if right_subtree.balance() > 0:
+                # right subtree is left-heavy
+                return self.double_left_rotation()
+            else:
                 # Regular left rotation
                 return self.left_rotation()
-            else:
-                return self.double_left_rotation()
 
     def pre_order(self):
         yield self.value
@@ -150,8 +154,57 @@ class _BstNode(object):  # each node is the root of the subtree
             if node.right:
                 q.append(node.right)
 
+    def delete_largest_value(self):
+        """
+        Deletes the largest value of the subtree rooted at self.
+
+        Returns a tuple of (new root of this subtree, deleted node).
+        """
+        if not self.right:
+            return self.left, self
+        else:
+            self.right, return_val = self.right.delete_largest_value()
+            self._update_depth()
+            return self.re_balance(), return_val
+
+    def delete_smallest_value(self):
+        """
+        Deletes the smallest value of the subtree rooted at self.
+
+        Returns a tuple of (new root of this subtree, deleted node).
+        """
+        if not self.left:
+            return self.right, self
+        else:
+            self.left, return_val = self.left.delete_largest_value()
+            self._update_depth()
+            return self.re_balance(), return_val
+
     def delete(self, val):
-        pass
+        """
+        Deletes val from the subtree rooted at self.
+
+        Returns the new root of this subtree, or self if the root did not
+        change.
+        """
+        new_root = self
+        if self.value == val:
+            if self.left:
+                self.left, new_root = self.left.delete_largest_value()
+                new_root.left = self.left
+                new_root.right = self.right
+            elif self.right:
+                self.right, new_root = self.right.delete_smallest_value()
+                new_root.left = self.left
+                new_root.right = self.right
+            else:
+                return None
+        elif self.value < val:
+            self.right = self.right.delete(val)
+        else:
+            self.left = self.left.delete(val)
+        new_root._update_depth()
+        return new_root.re_balance()
 
 
 class BST(object):
@@ -163,8 +216,8 @@ class BST(object):
         return self._size
 
     def __str__(self):
-        print str(self._root.left_depth())
-        print str(self._root.right_depth())
+        print self._root.left_depth()
+        print self._root.right_depth()
         return str(self._root)
 
     def insert(self, val):
@@ -250,10 +303,7 @@ class BST(object):
     def delete(self, val):
         if self.contains(val):
             self._size -= 1
-            return self._root.delete(val)
-
-    def re_balance(self):
-        pass
+            self._root = self._root.delete(val)
 
 
 if __name__ == '__main__':
