@@ -28,9 +28,9 @@ if __name__ == '__main__':
 t0 = time()
 worst_case()
 worst_time = time() - t0
-print "A reverse list {} perfomance with insertion sort ".format(worst_time)
+print "A reverse list perfomance with insertion sort: {} ".format(worst_time)
 
 t0 = time()
 best_case()
 best_time = time() - t0
-print "A sorted list {} perfomance with insertion sort".format(best_time)
+print "A sorted list perfomance with insertion sort: {}".format(best_time)
