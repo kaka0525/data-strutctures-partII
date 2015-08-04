@@ -18,7 +18,7 @@ def insertion_sort(list):
 if __name__ == '__main__':
     def worst_case():
         list_a = range(100)
-        list_a = list_a.reverse()
+        list_a.reverse()
         return list_a
 
     def best_case():
