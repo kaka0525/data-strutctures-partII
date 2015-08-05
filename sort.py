@@ -2,18 +2,19 @@ from __future__ import unicode_literals
 from time import time
 
 
-def insertion_sort(list):
-    for index in range(1, len(list)):
-        value = list[index]
+def insertion_sort(init_list):
+    return_list = init_list[:]
+    for index in range(1, len(return_list)):
+        value = return_list[index]
         i = index - 1
         while i >= 0:
-            if value < list[i]:
-                list[i + 1] = list[i]
-                list[i] = value
+            if value < return_list[i]:
+                return_list[i + 1] = return_list[i]
+                return_list[i] = value
                 i = i - 1
             else:
                 break
-
+    return return_list
 
 if __name__ == '__main__':
     def worst_case():
