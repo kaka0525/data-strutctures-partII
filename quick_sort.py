@@ -32,4 +32,4 @@ def _partition(init_list, low, high):
             border += 1
             init_list[i], init_list[border] = init_list[border], init_list[i]
     init_list[low], init_list[border] = init_list[border], init_list[low]
-    return(border)
+    return border
