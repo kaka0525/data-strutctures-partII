@@ -27,18 +27,19 @@ if __name__ == '__main__':
         return list_b
 
     iteration_list = [10, 100, 1000, 10000]
-    random_list = []
-    sorted_list = []
-    for iteration in iteration_list:
-        random_list.append(worst_case(iteration))
-        sorted_list.append(best_case(iteration))
+    random_list = [[] for x in range(4)]
+    sorted_list = [[] for x in range(4)]
+
+    for i in range(len(iteration_list)):
+        random_list[i].extend(worst_case(iteration_list[i]))
+        sorted_list[i].extend(best_case(iteration_list[i]))
 
     count = 0
     for test in random_list:
         t0 = time()
         insertion_sort(test)
         worst_time = time() - t0
-        print "A reverse list with {} entries, takes {} seconds with merge sort"\
+        print "A reverse list with {} entries, takes {} seconds with insertion sort"\
             .format(iteration_list[count], worst_time)
         count += 1
 
@@ -47,6 +48,6 @@ if __name__ == '__main__':
         t0 = time()
         insertion_sort(test)
         worst_time = time() - t0
-        print "An already sorted list with {} entries, takes {} seconds with merge sort"\
+        print "An already sorted list with {} entries, takes {} seconds with insertion sort"\
             .format(iteration_list[count], worst_time)
         count += 1

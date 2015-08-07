@@ -1,3 +1,8 @@
+from __future__ import unicode_literals
+from time import time
+from random import shuffle
+
+
 def quick_sort(init_list):
     _quick_sort2(init_list, 0, len(init_list) - 1)
     return init_list
@@ -33,3 +38,36 @@ def _partition(init_list, low, high):
             init_list[i], init_list[border] = init_list[border], init_list[i]
     init_list[low], init_list[border] = init_list[border], init_list[low]
     return border
+
+
+if __name__ == '__main__':
+    def build_list(iterations):
+        return_list = range(iterations)
+        return return_list
+
+    iteration_list = [10, 100, 1000, 10000]
+    random_list = [[] for x in range(4)]
+    sorted_list = [[] for x in range(4)]
+
+    for i in range(len(iteration_list)):
+        random_list[i].extend(build_list(iteration_list[i]))
+        shuffle(random_list)
+        sorted_list[i].extend(build_list(iteration_list[i]))
+
+    count = 0
+    for test in random_list:
+        t0 = time()
+        quick_sort(test)
+        worst_time = time() - t0
+        print "A random list with {} entries, takes {} seconds with quick sort"\
+            .format(len(test), worst_time)
+        count += 1
+
+    count = 0
+    for test in sorted_list:
+        t0 = time()
+        quick_sort(test)
+        worst_time = time() - t0
+        print "An already sorted list with {} entries, takes {} seconds with quick sort"\
+            .format(len(test), worst_time)
+        count += 1
