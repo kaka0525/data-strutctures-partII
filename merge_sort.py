@@ -5,8 +5,8 @@ from time import time
 def merge_sort(init_list):
     if len(init_list) <= 1:
         return init_list
-    list_left = init_list[:len(init_list) / 2]
-    list_right = init_list[len(init_list) / 2:]
+    list_left = init_list[:len(init_list) // 2]
+    list_right = init_list[len(init_list) // 2:]
     left = merge_sort(list_left)
     right = merge_sort(list_right)
     return merge(left, right)
