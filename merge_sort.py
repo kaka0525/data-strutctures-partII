@@ -1,12 +1,13 @@
 from __future__ import unicode_literals
 from time import time
+from random import shuffle
 
 
 def merge_sort(init_list):
     if len(init_list) <= 1:
         return init_list
-    list_left = init_list[:len(init_list) / 2]
-    list_right = init_list[len(init_list) / 2:]
+    list_left = init_list[:len(init_list) // 2]
+    list_right = init_list[len(init_list) // 2:]
     left = merge_sort(list_left)
     right = merge_sort(list_right)
     return merge(left, right)
@@ -31,23 +32,33 @@ def merge(left, right):
 
 
 if __name__ == '__main__':
-    def worst_case():
-        list_a = range(100)
-        list_a.reverse()
-        return list_a
+    def build_list(iterations):
+        return_list = range(iterations)
+        return return_list
 
-    def best_case():
-        list_b = range(100)
-        return list_b
+    iteration_list = [10, 100, 1000, 10000]
+    random_list = [[] for x in range(4)]
+    sorted_list = [[] for x in range(4)]
 
-    test_list = worst_case()
-    t0 = time()
-    merge_sort(test_list)
-    worst_time = time() - t0
-    print "A reverse list perfomance with merge sort: {} ".format(worst_time)
+    for i in range(len(iteration_list)):
+        random_list[i].extend(build_list(iteration_list[i]))
+        shuffle(random_list[i])
+        sorted_list[i].extend(build_list(iteration_list[i]))
 
-    test_list = best_case()
-    t0 = time()
-    merge_sort(test_list)
-    best_time = time() - t0
-    print "A sorted list perfomance with merge sort: {}".format(best_time)
+    count = 0
+    for test in random_list:
+        t0 = time()
+        merge_sort(test)
+        worst_time = time() - t0
+        print "A random list with {} entries, takes {} seconds with mergesort"\
+            .format(len(test), worst_time)
+        count += 1
+
+    count = 0
+    for test in sorted_list:
+        t0 = time()
+        merge_sort(test)
+        worst_time = time() - t0
+        print "An already sorted list with {} entries, takes {} seconds with merge sort"\
+            .format(len(test), worst_time)
+        count += 1
