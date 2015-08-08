@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from quick_sort import quick_sort
+from random import shuffle
 
 
 def test_simple():
@@ -30,3 +31,12 @@ def test_float():
     float_list = [10, 7, 8, 9.5, 2.5, 15, 0, 5]
     sorted_float = quick_sort(float_list)
     assert sorted_float == sorted(float_list)
+
+
+def test_long():
+    long_list = range(10000)
+    shuffle(long_list)
+    sorted_long = quick_sort(long_list)
+    assert sorted_long != long_list
+    assert sorted_long == sorted(long_list)
+

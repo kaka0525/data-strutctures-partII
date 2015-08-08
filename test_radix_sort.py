@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from radix_sort import radix_sort
+from random import shuffle
 
 
 def test_simple():
@@ -24,3 +25,11 @@ def test_reverse():
     reverse_list = [15, 10, 9, 8, 7, 5, 2, 0]
     sorted_reverse = radix_sort(reverse_list)
     assert sorted_reverse == sorted(reverse_list)
+
+
+def test_long():
+    long_list = range(10000)
+    shuffle(long_list)
+    sorted_long = radix_sort(long_list)
+    assert sorted_long != long_list
+    assert sorted_long == sorted(long_list)
