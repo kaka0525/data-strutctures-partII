@@ -10,6 +10,9 @@ class _BstNode(object):  # each node is the root of the subtree
         self.right = None
         self.depth = 1
 
+    def __str__(self):
+        return '({}, {}, {})'.format(self.value, self.left, self.right)
+
     def left_depth(self):
         return self.left.depth if self.left else 0
 
@@ -112,6 +115,7 @@ class _BstNode(object):  # each node is the root of the subtree
                 # Regular left rotation
                 return self.left_rotation()
 
+
     def pre_order(self):
         yield self.value
         if self.left:
@@ -209,6 +213,11 @@ class BST(object):
 
     def __len__(self):
         return self._size
+
+    def __str__(self):
+        print self._root.left_depth()
+        print self._root.right_depth()
+        return str(self._root)
 
     def insert(self, val):
         """
