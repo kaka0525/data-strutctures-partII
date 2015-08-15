@@ -152,6 +152,7 @@ class _BstNode(object):  # each node is the root of the subtree
     def delete_largest_value(self):
         """
         Deletes the largest value of the subtree rooted at self.
+
         Returns a tuple of (new root of this subtree, deleted node).
         """
         if not self.right:
@@ -164,6 +165,7 @@ class _BstNode(object):  # each node is the root of the subtree
     def delete_smallest_value(self):
         """
         Deletes the smallest value of the subtree rooted at self.
+
         Returns a tuple of (new root of this subtree, deleted node).
         """
         if not self.left:
@@ -176,6 +178,7 @@ class _BstNode(object):  # each node is the root of the subtree
     def delete(self, val):
         """
         Deletes val from the subtree rooted at self.
+
         Returns the new root of this subtree, or self if the root did not
         change.
         """
