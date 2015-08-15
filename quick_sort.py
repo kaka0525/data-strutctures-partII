@@ -4,8 +4,9 @@ from random import shuffle
 
 
 def quick_sort(init_list):
-    _quick_sort2(init_list, 0, len(init_list) - 1)
-    return init_list
+    return_list = init_list[:]
+    _quick_sort2(return_list, 0, len(return_list) - 1)
+    return return_list
 
 
 def _quick_sort2(init_list, low, high):
