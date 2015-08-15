@@ -32,6 +32,7 @@ def merge(left, right):
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     def worst_case(iterations):
         list_a = best_case(iterations)
         shuffle(list_a)
@@ -55,6 +56,28 @@ if __name__ == '__main__':
         worst_time = time() - t0
         print "A random list with {} entries, takes {} seconds with merge sort"\
             .format(iteration_list[count], worst_time)
+=======
+    def build_list(iterations):
+        return_list = range(iterations)
+        return return_list
+
+    iteration_list = [10, 100, 1000, 10000]
+    random_list = [[] for x in range(4)]
+    sorted_list = [[] for x in range(4)]
+
+    for i in range(len(iteration_list)):
+        random_list[i].extend(build_list(iteration_list[i]))
+        shuffle(random_list[i])
+        sorted_list[i].extend(build_list(iteration_list[i]))
+
+    count = 0
+    for test in random_list:
+        t0 = time()
+        merge_sort(test)
+        worst_time = time() - t0
+        print "A random list with {} entries, takes {} seconds with mergesort"\
+            .format(len(test), worst_time)
+>>>>>>> 60f0f978c1f87de7a79e3b1469875c810292cae0
         count += 1
 
     count = 0
@@ -63,5 +86,9 @@ if __name__ == '__main__':
         merge_sort(test)
         worst_time = time() - t0
         print "An already sorted list with {} entries, takes {} seconds with merge sort"\
+<<<<<<< HEAD
             .format(iteration_list[count], worst_time)
+=======
+            .format(len(test), worst_time)
+>>>>>>> 60f0f978c1f87de7a79e3b1469875c810292cae0
         count += 1
