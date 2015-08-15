@@ -39,4 +39,3 @@ def test_long():
     sorted_long = quick_sort(long_list)
     assert sorted_long != long_list
     assert sorted_long == sorted(long_list)
-
