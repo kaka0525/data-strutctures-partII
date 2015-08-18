@@ -16,3 +16,4 @@
 * merge_sort(initial_list): will return a new list that is ordered using merge sort
 * quick_sort(initial_list): will return a new list that is ordered using quick sort. Pivot is chosen using subdivision
 * radix_sort(initial_list): will return a new list that is ordered using radix_sort. Only works for positive integers
+*
